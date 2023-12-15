@@ -69,8 +69,8 @@ def api_users_signup():
 def api_users_login():
     try:
         data = request.get_json()
-        email = request.form.get('email').strip()
-        password = request.form.get('password').strip()
+        email = request.form.get('email')
+        password = request.form.get('password')
 
         error = False
 
@@ -92,6 +92,11 @@ def api_users_login():
 
     except Exception as e:
         return jsonify({'status': 500, 'message': f'Internal Server Error: {str(e)}'})
+    
+
+@app.route('/')
+def about():
+    return 'Welcome to benet eddar'
 
 
 if __name__ == "__main__":

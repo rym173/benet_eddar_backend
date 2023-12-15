@@ -58,7 +58,6 @@ def api_users_signup():
 @app.route('/users.login', methods=['POST', 'GET'])
 def api_users_login():
     try:
-        data = request.get_json()
         email = request.form.get('email')
         password = request.form.get('password')
 

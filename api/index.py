@@ -16,17 +16,17 @@ def api_users_signup():
 
         # If not available, try to get data from form
         if data is None:
-            Email = request.form.get('email').strip()
-            Name = request.form.get('name').strip()
-            Password = request.form.get('password').strip()
-            Location = request.form.get('location').strip()
-            Phone = request.form.get('phone').strip()
+            Email = request.form.get('email')
+            Name = request.form.get('name')
+            Password = request.form.get('password')
+            Location = request.form.get('location')
+            Phone = request.form.get('phone')
         else:
-            Name = data.get('name').strip()
-            Email = data.get('email').strip()
-            Password = data.get('password').strip()
-            Location = data.get('location').strip()
-            Phone = int(data.get('phone').strip())
+            Name = data.get('name')
+            Email = data.get('email')
+            Password = data.get('password')
+            Location = data.get('location')
+            Phone = int(data.get('phone'))
 
         error = False
 

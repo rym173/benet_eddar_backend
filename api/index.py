@@ -11,25 +11,15 @@ supabase: Client = create_client(url, key)
 @app.route('/users.signup', methods=['POST', 'GET'])
 def api_users_signup():
     try:
-        # Attempt to get data from JSON
-        data = request.get_json()
 
-        # If not available, try to get data from form
-        if data is None:
-            Email = request.form.get('email')
-            Name = request.form.get('name')
-            Password = request.form.get('password')
-            Location = request.form.get('location')
-            Phone = request.form.get('phone')
-        else:
-            Name = data.get('name')
-            Email = data.get('email')
-            Password = data.get('password')
-            Location = data.get('location')
-            Phone = int(data.get('phone'))
+        Email = request.form.get('email')
+        Name = request.form.get('name')
+        Password = request.form.get('password')
+        Location = request.form.get('location')
+        Phone = request.form.get('phone')
+        error =False
 
-        error = False
-
+        
         if (not Email) or (len(Email) < 5):
             error = 'Email needs to be valid'
 

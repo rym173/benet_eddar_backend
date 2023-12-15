@@ -10,7 +10,7 @@ supabase: Client = create_client(url, key)
 
 @app.route('/users.signup', methods=['POST', 'GET'])
 def api_users_signup():
-    try:
+    
 
         Email = request.form.get('email')
         Name = request.form.get('name')
@@ -51,13 +51,12 @@ def api_users_signup():
 
         return jsonify({'status': 200, 'message': '', 'data': response.data[0]})
 
-    except Exception as e:
-        return jsonify({'status': 500, 'message': f'Internal Server Error: {str(e)}'})
+  
 
 
 @app.route('/users.login', methods=['POST', 'GET'])
 def api_users_login():
-    try:
+    
         email = request.form.get('email')
         password = request.form.get('password')
 
@@ -79,8 +78,7 @@ def api_users_login():
 
         return jsonify({'status': 500, 'message': error})
 
-    except Exception as e:
-        return jsonify({'status': 500, 'message': f'Internal Server Error: {str(e)}'})
+
     
 
 @app.route('/')

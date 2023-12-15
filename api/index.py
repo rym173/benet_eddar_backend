@@ -1,0 +1,99 @@
+from flask import Flask, request, jsonify
+from supabase import create_client, Client
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+url = "https://hljaiwqvdchahyfsvpdh.supabase.co"
+key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsamFpd3F2ZGNoYWh5ZnN2cGRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI0NjM1MzUsImV4cCI6MjAxODAzOTUzNX0.3CioZ51QSifNdWya5a_h4jhOxx_Qp4f79GhsuNNTCl0"
+supabase: Client = create_client(url, key)
+
+@app.route('/users.signup', methods=['POST', 'GET'])
+def api_users_signup():
+    try:
+        # Attempt to get data from JSON
+        data = request.get_json()
+
+        # If not available, try to get data from form
+        if data is None:
+            Email = request.form.get('email').strip()
+            Name = request.form.get('name').strip()
+            Password = request.form.get('password').strip()
+            Location = request.form.get('location').strip()
+            Phone = request.form.get('phone').strip()
+        else:
+            Name = data.get('name').strip()
+            Email = data.get('email').strip()
+            Password = data.get('password').strip()
+            Location = data.get('location').strip()
+            Phone = int(data.get('phone').strip())
+
+        error = False
+
+        if (not Email) or (len(Email) < 5):
+            error = 'Email needs to be valid'
+
+        if (not Name) or (len(Name) == 0):
+            error = 'Name cannot be empty'
+
+        if (not error) and ((not Password) or (len(Password) < 6)):
+            error = 'Provide a password'
+
+        if (not error):
+            response = supabase.table('User').select("*").ilike('Email', Email).execute()
+            if len(response.data) > 0:
+                error = 'User already exists'
+
+        if (not error):
+            response = supabase.table('User').insert({
+                "Email": Email,
+                "Password": Password,
+                "Name": Name,
+                "Location": Location,
+                "Phone": Phone
+            }).execute()
+            print(str(response.data))
+            if len(response.data) == 0:
+                error = 'Error creating the user'
+
+        if error:
+            return jsonify({'status': 500, 'message': error})
+
+        return jsonify({'status': 200, 'message': '', 'data': response.data[0]})
+
+    except Exception as e:
+        return jsonify({'status': 500, 'message': f'Internal Server Error: {str(e)}'})
+
+
+@app.route('/users.login', methods=['POST', 'GET'])
+def api_users_login():
+    try:
+        data = request.get_json()
+        email = request.form.get('email').strip()
+        password = request.form.get('password').strip()
+
+        error = False
+
+        if (not email) or (len(email) < 5):
+            error = 'Email needs to be valid'
+
+        if (not error) and ((not password) or (len(password) < 5)):
+            error = 'Provide a password'
+
+        if (not error):
+            response = supabase.table('User').select("*").ilike('Email', email).eq('Password', password).execute()
+            if len(response.data) > 0:
+                return jsonify({'status': 200, 'message': '', 'data': response.data[0]})
+
+        if not error:
+            error = 'Invalid Email or password'
+
+        return jsonify({'status': 500, 'message': error})
+
+    except Exception as e:
+        return jsonify({'status': 500, 'message': f'Internal Server Error: {str(e)}'})
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

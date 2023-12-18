@@ -5,9 +5,8 @@ import traceback
 app = Flask(__name__)
 
 url = "https://hljaiwqvdchahyfsvpdh.supabase.co"
-key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsamFpd3F2ZGNoYWh5ZnN2cGRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI0NjM1MzUsImV4cCI6MjAxODAzOTUzNX0.3CioZ51QSifNdWya5a_h4jhOxx_Qp4f79GhsuNNTCl0"  # Replace with your actual Supabase API key
+key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsamFpd3F2ZGNoYWh5ZnN2cGRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI0NjM1MzUsImV4cCI6MjAxODAzOTUzNX0.3CioZ51QSifNdWya5a_h4jhOxx_Qp4f79GhsuNNTCl0" 
 supabase: Client = create_client(url, key)
-
 
 @app.route('/users.signup', methods=['POST', 'GET'])
 def api_users_signup():
@@ -33,6 +32,8 @@ def api_users_signup():
 
         if (not error):
             response = supabase.table('User').select("*").ilike('Email', Email).execute()
+            print(f"Supabase response for email check: {response}")
+
             if len(response.data) > 0:
                 error = 'User already exists'
 
@@ -45,6 +46,7 @@ def api_users_signup():
                 "Phone": Phone
             }).execute()
             print(f"Supabase response for signup: {response}")
+
             if len(response.data) == 0:
                 error = 'Error creating the user'
 
@@ -59,7 +61,6 @@ def api_users_signup():
         print(f"Exception during signup: {error_message}")
         traceback.print_exc()  # Print the stack trace
         return jsonify({'status': 500, 'message': error_message, 'stack_trace': traceback.format_exc()})
-
 
 @app.route('/users.login', methods=['POST', 'GET'])
 def api_users_login():
@@ -80,6 +81,7 @@ def api_users_login():
         if (not error):
             response = supabase.table('User').select("*").ilike('Email', email).eq('Password', password).execute()
             print(f"Supabase response for login: {response}")
+
             if len(response.data) > 0:
                 return jsonify({'status': 200, 'message': '', 'data': response.data[0], 'stack_trace': ''})
 

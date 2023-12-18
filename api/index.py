@@ -7,6 +7,8 @@ app = Flask(__name__)
 url = "https://hljaiwqvdchahyfsvpdh.supabase.co"
 key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsamFpd3F2ZGNoYWh5ZnN2cGRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI0NjM1MzUsImV4cCI6MjAxODAzOTUzNX0.3CioZ51QSifNdWya5a_h4jhOxx_Qp4f79GhsuNNTCl0"  # Replace with your actual Supabase API key
 supabase: Client = create_client(url, key)
+if not url or not key:
+    print("Error: Supabase URL or key not found in environment variables.")
 
 @app.route('/users.signup', methods=['POST', 'GET'])
 def api_users_signup():

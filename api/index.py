@@ -1,3 +1,4 @@
+import json
 from flask import Flask, request, jsonify
 from supabase import create_client, Client
 from flask_cors import CORS 
@@ -57,9 +58,8 @@ def api_users_signup():
         return jsonify({'status': 500, 'message': f'Internal Server Error: {str(e)}'})
 
 
-@app.route('/users.login', methods=['POST', 'GET'])
+@app.route('/users.login', methods=['POST'])
 def api_users_login():
-    try:
         email = request.form.get('email')
         password = request.form.get('password')
 
@@ -79,10 +79,9 @@ def api_users_login():
         if not error:
             error = 'Invalid Email or password'
 
-        return jsonify({'status': 500, 'message': error})
-
-    except Exception as e:
-        return jsonify({'status': 500, 'message': f'Internal Server Error: {str(e)}'})
+        if error:
+            return json.dumps({'status': 500, 'message': error})
+        return json.dumps({'status': 500, 'message': 'Invalid email or password'})
     
 @app.route('/')
 def about():

@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 url = "https://hljaiwqvdchahyfsvpdh.supabase.co"
 key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsamFpd3F2ZGNoYWh5ZnN2cGRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI0NjM1MzUsImV4cCI6MjAxODAzOTUzNX0.3CioZ51QSifNdWya5a_h4jhOxx_Qp4f79GhsuNNTCl0"
+
 supabase: Client = create_client(url, key)
 
 @app.route('/users.signup', methods=['POST', 'GET'])
@@ -58,7 +59,6 @@ def api_users_signup():
 @app.route('/users.login', methods=['POST', 'GET'])
 def api_users_login():
     try:
-
         email = request.form.get('email')
         password = request.form.get('password')
 

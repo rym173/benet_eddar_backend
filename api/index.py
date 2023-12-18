@@ -84,10 +84,10 @@ def api_users_login():
     except Exception as e:
         return jsonify({'status': 500, 'message': f'Internal Server Error: {str(e)}'})
     
-
 @app.route('/')
 def about():
     return 'Welcome to benet eddar'
+
 
 
 if __name__ == "__main__":

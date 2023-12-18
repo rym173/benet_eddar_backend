@@ -4,8 +4,8 @@ import traceback
 
 app = Flask(__name__)
 
-url = "https://hljaiwqvdchahyfsvpdh.supabase.co"
-key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsamFpd3F2ZGNoYWh5ZnN2cGRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI0NjM1MzUsImV4cCI6MjAxODAzOTUzNX0.3CioZ51QSifNdWya5a_h4jhOxx_Qp4f79GhsuNNTCl0" 
+url = "https://basoskzwwkxngiiowmor.supabase.co"
+key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJhc29za3p3d2t4bmdpaW93bW9yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI5MTc4NzcsImV4cCI6MjAxODQ5Mzg3N30._rbztBADnWcjPXZf72O0xUy5jiR9KoJdUc5iTsgHiqw" 
 supabase: Client = create_client(url, key)
 
 @app.route('/users.signup', methods=['POST', 'GET'])

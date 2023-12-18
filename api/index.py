@@ -1,10 +1,11 @@
 from flask import Flask, request, jsonify
 from supabase import create_client, Client
+import traceback
 
 app = Flask(__name__)
 
 url = "https://hljaiwqvdchahyfsvpdh.supabase.co"
-key = "YOUR_SUPABASE_API_KEY"  # Replace with your actual Supabase API key
+key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsamFpd3F2ZGNoYWh5ZnN2cGRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI0NjM1MzUsImV4cCI6MjAxODAzOTUzNX0.3CioZ51QSifNdWya5a_h4jhOxx_Qp4f79GhsuNNTCl0"  # Replace with your actual Supabase API key
 supabase: Client = create_client(url, key)
 
 @app.route('/users.signup', methods=['POST', 'GET'])
@@ -48,13 +49,15 @@ def api_users_signup():
 
         if error:
             print(f"Signup error: {error}")
-            return jsonify({'status': 500, 'message': error})
+            return jsonify({'status': 500, 'message': error, 'stack_trace': ''})
 
-        return jsonify({'status': 200, 'message': '', 'data': response.data[0]})
+        return jsonify({'status': 200, 'message': '', 'data': response.data[0], 'stack_trace': ''})
 
     except Exception as e:
-        print(f"Exception during signup: {str(e)}")
-        return jsonify({'status': 500, 'message': f'Internal Server Error: {str(e)}'})
+        error_message = f'Internal Server Error: {str(e)}'
+        print(f"Exception during signup: {error_message}")
+        traceback.print_exc()  # Print the stack trace
+        return jsonify({'status': 500, 'message': error_message, 'stack_trace': traceback.format_exc()})
 
 
 @app.route('/users.login', methods=['POST', 'GET'])
@@ -77,17 +80,19 @@ def api_users_login():
             response = supabase.table('User').select("*").ilike('Email', email).eq('Password', password).execute()
             print(f"Supabase response for login: {response}")
             if len(response.data) > 0:
-                return jsonify({'status': 200, 'message': '', 'data': response.data[0]})
+                return jsonify({'status': 200, 'message': '', 'data': response.data[0], 'stack_trace': ''})
 
         if not error:
             error = 'Invalid Email or password'
 
         print(f"Login error: {error}")
-        return jsonify({'status': 500, 'message': error})
+        return jsonify({'status': 500, 'message': error, 'stack_trace': ''})
 
     except Exception as e:
-        print(f"Exception during login: {str(e)}")
-        return jsonify({'status': 500, 'message': f'Internal Server Error: {str(e)}'})
+        error_message = f'Internal Server Error: {str(e)}'
+        print(f"Exception during login: {error_message}")
+        traceback.print_exc()  # Print the stack trace
+        return jsonify({'status': 500, 'message': error_message, 'stack_trace': traceback.format_exc()})
 
 if __name__ == "__main__":
     app.run(debug=True)

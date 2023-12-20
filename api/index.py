@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,json
 from supabase import create_client, Client
 
 
@@ -83,7 +83,33 @@ def api_users_login():
     except Exception as e:
         return jsonify({'status': 500, 'message': f'Internal Server Error: {str(e)}'})
     
+        
+@app.route('/users.changePassword', methods=['PUT'])
+def api_users_change_password():
+    phone = request.form.get('phone')
+    new_password = request.form.get('newPassword')
+    error = False
 
+    # Validate phone
+    if (not phone) :
+        error = 'Phone needs to be valid'
+     # Convert phone to integer
+    phone_as_int = int(phone) if phone.isdigit() else None       
+
+    # Validate new password
+    if (not error) and ((not new_password) or (len(new_password) < 5)):
+        error = 'Provide a valid new password'
+
+    # Update the password in the Supabase database
+    if not error:
+        response = supabase.table('User').update({"Password": new_password}).eq('Phone', phone_as_int).execute()
+        if len(response.data) == 0:
+            error = 'Error updating the password'
+
+    if error:
+        return json.dumps({'status': 400, 'message': error})
+
+    return json.dumps({'status': 200, 'message': 'Password updated successfully'})
 @app.route('/')
 def about():
     return 'Welcome to benet eddar'

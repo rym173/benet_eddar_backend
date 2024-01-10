@@ -110,10 +110,104 @@ def api_users_change_password():
         return json.dumps({'status': 400, 'message': error})
 
     return json.dumps({'status': 200, 'message': 'Password updated successfully'})
+
+@app.route('/users.getMenusAndDishesForUser', methods=['GET'])
+def get_all_cooks_menus():
+    try:
+        response = supabase.table('Menu').select("*").execute()
+        menus = response.data
+        if not menus:
+            print('No menus found')
+            return jsonify({'status': 404, 'message': 'No menus found'}), 404
+
+        for menu in menus:
+            response = supabase.table('Menus_Dishes').select('Dish_ID').filter('Menu_ID', 'eq', menu['Menu_ID']).execute()
+            dishes = response.data
+            dish_ids = [dish['Dish_ID'] for dish in dishes]
+
+            menu['dishes'] = []
+
+            for dish_id in dish_ids:
+                response = supabase.table('Dish').select("*").filter('Dish_ID', 'eq', dish_id).execute()
+                menu['dishes'].extend(response.data)
+
+        return json.dumps(menus), 200
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'status': 500, 'message': 'Internal Server Error'}), 500
+    
+@app.route('/cooks/<int:cook_id>', methods=['GET'])
+def get_cook_info(cook_id):
+    try:
+        response = supabase.table('Cook').select("*").filter('Cook_ID', 'eq', cook_id).execute()
+        cook_info = response.data
+        print(cook_info)
+        if not cook_info:
+            return jsonify({'status': 404, 'message': 'No cook found with this ID'}), 404
+        return jsonify({'status': 200, 'data': cook_info}), 200
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'status': 500, 'message': 'Internal Server Error'}), 500
+    
+@app.route('/registerLineOrder', methods=['POST'])
+def register_line_order():
+    try:
+        # Récupérer les données du formulaire
+        order_id=request.json.get('Order_ID')
+        dish_name = request.json.get('Order_Descriptions')
+        dish_quantity = request.json.get('Quantity')
+
+        # Insérer les données dans la table Order_line
+        response = supabase.table('Order_line').insert({
+            'Order_ID':order_id,
+            'Order_Descriptions': dish_name,
+            'Quantity': dish_quantity
+        }).execute()
+        if hasattr(response, 'error') and response.error:
+            raise Exception('Failed to register order: ' + response.error.message)
+
+        return jsonify({'status': 200, 'message': '', 'data': response.data})
+
+    except Exception as e:
+        print('Error: ', e)
+        return jsonify({'status': 500, 'message': str(e)}), 500
+    
+@app.route('/registerOrder', methods=['POST'])
+def register_order():
+    try:
+        # Récupérer les données du formulaire
+        user_id=request.json.get('userId')
+        special_inst = request.json.get('SpecialInst')
+        order_status = request.json.get('OrderStatus')
+        price = request.json.get('price')
+
+        # Insérer les données dans la table FullOrder
+        # Insérer les données dans la table FullOrder
+        response = supabase.table('FullOrder').insert({
+            'User_ID':user_id,
+            'Special_Inst': special_inst,
+            'OrderStatus': order_status,
+            'TotalPrice': price
+        }).execute()
+
+        if hasattr(response, 'error') and response.error:
+            raise Exception('Failed to register order: ' + response.error.message)
+
+        # Accéder au premier élément de la liste de données et récupérer 'Trans_ID'
+        trans_id = response.data[0]['Trans_ID']
+
+        # Retourner l'ID de la colonne Trans_ID
+        return jsonify({'status': 200, 'message': '', 'data': trans_id})
+
+    except Exception as e:
+        print('Error: ', e)
+        return jsonify({'status': 500, 'message': 'Failed to register order: ' + str(e), 'data': {}})
+
+               
 @app.route('/')
 def about():
     return 'Welcome to benet eddar'
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True,port=5000)

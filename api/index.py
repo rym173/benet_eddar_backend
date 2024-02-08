@@ -176,7 +176,7 @@ def register_line_order():
 def register_order():
     try:
         # Récupérer les données du formulaire
-        cook_id=request.json.get('cookID')
+        cook_id=request.json.get('cookId')
         user_id=request.json.get('userId')
         special_inst = request.json.get('SpecialInst')
         order_status = request.json.get('OrderStatus')

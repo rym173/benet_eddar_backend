@@ -176,18 +176,20 @@ def register_line_order():
 def register_order():
     try:
         # Récupérer les données du formulaire
+        cook_id=request.json.get('cookID')
         user_id=request.json.get('userId')
         special_inst = request.json.get('SpecialInst')
         order_status = request.json.get('OrderStatus')
         price = request.json.get('price')
+        
 
-        # Insérer les données dans la table FullOrder
         # Insérer les données dans la table FullOrder
         response = supabase.table('FullOrder').insert({
             'User_ID':user_id,
             'Special_Inst': special_inst,
             'OrderStatus': order_status,
-            'TotalPrice': price
+            'TotalPrice': price,
+            'Cook_ID':cook_id
         }).execute()
 
         if hasattr(response, 'error') and response.error:
@@ -202,6 +204,31 @@ def register_order():
     except Exception as e:
         print('Error: ', e)
         return jsonify({'status': 500, 'message': 'Failed to register order: ' + str(e), 'data': {}})
+    
+@app.route('/cooks/<int:cook_id>/menus', methods=['GET'])
+def get_cook_menus(cook_id):
+    try:
+        response = supabase.table('Menu').select("*").filter('Cook_ID', 'eq', cook_id).execute()
+        menus = response.data
+        if not menus:
+            print('No menus found for this cook')
+            return jsonify({'status': 404, 'message': 'No menus found for this cook'}), 404
+
+        for menu in menus:
+            response = supabase.table('Menus_Dishes').select('Dish_ID').filter('Menu_ID', 'eq', menu['Menu_ID']).execute()
+            dishes = response.data
+            dish_ids = [dish['Dish_ID'] for dish in dishes]
+
+            menu['dishes'] = []
+
+            for dish_id in dish_ids:
+                response = supabase.table('Dish').select("*").filter('Dish_ID', 'eq', dish_id).execute()
+                menu['dishes'].extend(response.data)
+
+        return json.dumps(menus), 200
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'status': 500, 'message': 'Internal Server Error'}), 500
 
                
 @app.route('/')

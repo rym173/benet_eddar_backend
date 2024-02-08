@@ -1,0 +1,62 @@
+<odoo>
+
+<record id="erpish_commune_554" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Alger Centre</field><field name="code_postal">16001</field></record>
+<record id="erpish_commune_555" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Sidi Mhamed</field><field name="code_postal">16002</field></record>
+<record id="erpish_commune_556" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">El Madania</field><field name="code_postal">16003</field></record>
+<record id="erpish_commune_557" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Hamma Anassers</field><field name="code_postal">16004</field></record>
+<record id="erpish_commune_558" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Bab El Oued</field><field name="code_postal">16005</field></record>
+<record id="erpish_commune_559" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Bologhine Ibn Ziri</field><field name="code_postal">16006</field></record>
+<record id="erpish_commune_560" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Casbah</field><field name="code_postal">16007</field></record>
+<record id="erpish_commune_561" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Oued Koriche</field><field name="code_postal">16008</field></record>
+<record id="erpish_commune_562" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Bir Mourad Rais</field><field name="code_postal">16009</field></record>
+<record id="erpish_commune_563" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">El Biar</field><field name="code_postal">16010</field></record>
+<record id="erpish_commune_564" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Bouzareah</field><field name="code_postal">16011</field></record>
+<record id="erpish_commune_565" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Birkhadem</field><field name="code_postal">16012</field></record>
+<record id="erpish_commune_566" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">El Harrach</field><field name="code_postal">16013</field></record>
+<record id="erpish_commune_567" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Baraki</field><field name="code_postal">16014</field></record>
+<record id="erpish_commune_568" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Oued Smar</field><field name="code_postal">16015</field></record>
+<record id="erpish_commune_569" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Bourouba</field><field name="code_postal">16016</field></record>
+<record id="erpish_commune_570" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Hussein Dey</field><field name="code_postal">16017</field></record>
+<record id="erpish_commune_571" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Kouba</field><field name="code_postal">16018</field></record>
+<record id="erpish_commune_572" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Bachedjerah</field><field name="code_postal">16019</field></record>
+<record id="erpish_commune_573" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Dar El Beida</field><field name="code_postal">16020</field></record>
+<record id="erpish_commune_574" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Bab Azzouar</field><field name="code_postal">16021</field></record>
+<record id="erpish_commune_575" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Ben Aknoun</field><field name="code_postal">16022</field></record>
+<record id="erpish_commune_576" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Dely Ibrahim</field><field name="code_postal">16023</field></record>
+<record id="erpish_commune_577" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Bains Romains</field><field name="code_postal">16024</field></record>
+<record id="erpish_commune_578" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Rais Hamidou</field><field name="code_postal">16025</field></record>
+<record id="erpish_commune_579" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Djasr Kasentina</field><field name="code_postal">16026</field></record>
+<record id="erpish_commune_580" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">El Mouradia</field><field name="code_postal">16027</field></record>
+<record id="erpish_commune_581" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Hydra</field><field name="code_postal">16028</field></record>
+<record id="erpish_commune_582" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Mohammadia</field><field name="code_postal">16029</field></record>
+<record id="erpish_commune_583" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Bordj El Kiffan</field><field name="code_postal">16030</field></record>
+<record id="erpish_commune_584" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">El Magharia</field><field name="code_postal">16031</field></record>
+<record id="erpish_commune_585" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Beni Messous</field><field name="code_postal">16032</field></record>
+<record id="erpish_commune_586" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Les Eucalyptus</field><field name="code_postal">16033</field></record>
+<record id="erpish_commune_587" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Birtouta</field><field name="code_postal">16034</field></record>
+<record id="erpish_commune_588" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Tassala El Merdja</field><field name="code_postal">16035</field></record>
+<record id="erpish_commune_589" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Ouled Chebel</field><field name="code_postal">16036</field></record>
+<record id="erpish_commune_590" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Sidi Moussa</field><field name="code_postal">16037</field></record>
+<record id="erpish_commune_591" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Ain Taya</field><field name="code_postal">16038</field></record>
+<record id="erpish_commune_592" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Bordj El Bahri</field><field name="code_postal">16039</field></record>
+<record id="erpish_commune_593" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Marsa</field><field name="code_postal">16040</field></record>
+<record id="erpish_commune_594" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Haraoua</field><field name="code_postal">16041</field></record>
+<record id="erpish_commune_595" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Rouiba</field><field name="code_postal">16042</field></record>
+<record id="erpish_commune_596" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Reghaia</field><field name="code_postal">16043</field></record>
+<record id="erpish_commune_597" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Ain Benian</field><field name="code_postal">16044</field></record>
+<record id="erpish_commune_598" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Staoueli</field><field name="code_postal">16045</field></record>
+<record id="erpish_commune_599" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Zeralda</field><field name="code_postal">16046</field></record>
+<record id="erpish_commune_600" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Mahelma</field><field name="code_postal">16047</field></record>
+<record id="erpish_commune_601" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Rahmania</field><field name="code_postal">16048</field></record>
+<record id="erpish_commune_602" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Souidania</field><field name="code_postal">16049</field></record>
+<record id="erpish_commune_603" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Cheraga</field><field name="code_postal">16050</field></record>
+<record id="erpish_commune_604" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Ouled Fayet</field><field name="code_postal">16051</field></record>
+<record id="erpish_commune_605" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">El Achour</field><field name="code_postal">16052</field></record>
+<record id="erpish_commune_606" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Draria</field><field name="code_postal">16053</field></record>
+<record id="erpish_commune_607" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Douera</field><field name="code_postal">16054</field></record>
+<record id="erpish_commune_608" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Baba Hassen</field><field name="code_postal">16055</field></record>
+<record id="erpish_commune_609" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Khracia</field><field name="code_postal">16056</field></record>
+<record id="erpish_commune_610" model="erpish.commune"><field name="state_id" ref="erpish_dz_wilaya.16"/><field name="name">Saoula</field><field name="code_postal">16057</field></record>
+
+
+</odoo>

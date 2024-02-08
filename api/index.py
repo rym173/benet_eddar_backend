@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify,json
 from supabase import create_client, Client
+import os
+import xml.etree.ElementTree as ET
 
 
 app = Flask(__name__)
@@ -8,6 +10,35 @@ url = "https://hljaiwqvdchahyfsvpdh.supabase.co"
 key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsamFpd3F2ZGNoYWh5ZnN2cGRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI0NjM1MzUsImV4cCI6MjAxODAzOTUzNX0.3CioZ51QSifNdWya5a_h4jhOxx_Qp4f79GhsuNNTCl0"
 
 supabase: Client = create_client(url, key)
+
+# Get the directory of the current script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the full path to the XML file
+xml_file_path = os.path.join(script_dir, 'commune.xml')
+
+# Parse the XML file
+tree = ET.parse(xml_file_path)
+root = tree.getroot()
+
+
+# Implement search logic
+def search_communes(query):
+    results = []
+    for record in root.findall('.//record'):
+        name = record.find('field[@name="name"]').text
+        if name.lower().startswith(query.lower()):
+            results.append(name)
+    return results
+
+@app.route('/enterLocation', methods=['GET'])
+def search():
+    query = request.args.get('query')
+    if not query:
+        return jsonify({'error': 'Invalid query'}), 400
+
+    results = search_communes(query)
+    return jsonify({'results': results})
 
 @app.route('/users.signup', methods=['POST', 'GET'])
 def api_users_signup():
@@ -204,7 +235,7 @@ def register_order():
     except Exception as e:
         print('Error: ', e)
         return jsonify({'status': 500, 'message': 'Failed to register order: ' + str(e), 'data': {}})
-    
+      
 @app.route('/cooks/<int:cook_id>/menus', methods=['GET'])
 def get_cook_menus(cook_id):
     try:
@@ -229,6 +260,174 @@ def get_cook_menus(cook_id):
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({'status': 500, 'message': 'Internal Server Error'}), 500
+    
+@app.route('/users/<int:user_id>/orders', methods=['GET'])
+def get_users_orders(user_id):
+    try:
+        # Fetch orders from FullOrder table
+        response_full_order = supabase.table('FullOrder').select(
+            'Trans_ID',
+            'OrderStatus',
+            'OrderDate',
+            'Special_Inst',
+            'TotalPrice'
+        ).filter('User_ID', 'eq', user_id).filter('User_ID', 'eq', user_id).filter('OrderStatus', 'eq', 'En attente').execute()
+
+        if 'error' in response_full_order:
+            error_message = response_full_order['error']['message']
+            print(f'Error: {error_message}')
+            return jsonify({"error": error_message})
+
+        orders = response_full_order.data
+
+        formatted_orders = []
+        for order in orders:
+            order_id = order['Trans_ID']
+
+            # Fetch order line details
+            response_order_line = supabase.table('Order_line').select(
+                'Order_Descriptions',
+                'Quantity'
+            ).filter('Order_ID', 'eq', order_id).execute()
+
+            if 'error' in response_order_line:
+                error_message = response_order_line['error']['message']
+                print(f'Error: {error_message}')
+                return jsonify({"error": error_message})
+
+            order_line_data = response_order_line.data
+            # Create a list of dishes
+            dishes = []
+            for dish in order_line_data:
+                dishes.append({
+                    "order_description": dish['Order_Descriptions'],
+                    "quantity": dish['Quantity']
+                })
+
+            
+            # Fetch user details
+            response_user = supabase.table('User').select(
+                'Location',
+                'Name',
+                'Phone'
+            ).filter('UserID', 'eq', user_id).execute()
+
+            if 'error' in response_user:
+                error_message = response_user['error']['message']
+                print(f'Error: {error_message}')
+                return jsonify({"error": error_message})
+
+            user_data = response_user.data[0]
+
+            # Combine data into the desired format
+            formatted_order = {
+                "order_id": order_id,
+                "dishes": dishes,
+                "order_date": order['OrderDate'],
+                "order_status": order['OrderStatus'],
+                "special_instruction": order['Special_Inst'],
+                "total_price": order['TotalPrice'],
+                "user_location": user_data['Location'],
+                "user_name": user_data['Name'],
+                "user_phone": user_data['Phone']
+            }
+
+            formatted_orders.append(formatted_order)
+
+        return jsonify({"orders": formatted_orders})
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'status': 500, 'message': 'Internal Server Error'}), 500
+    
+@app.route('/users/<int:user_id>/treatedOrders', methods=['GET'])
+def get_users_treatedOrders(user_id):
+    try:
+        # Fetch orders from FullOrder table
+        response_full_order = supabase.table('FullOrder').select(
+            'Trans_ID',
+            'OrderStatus',
+            'OrderDate',
+            'Special_Inst',
+            'TotalPrice'
+        ).filter('User_ID', 'eq', user_id).filter('User_ID', 'eq', user_id).filter('OrderStatus', 'neq', 'En attente').execute()
+
+        if 'error' in response_full_order:
+            error_message = response_full_order['error']['message']
+            print(f'Error: {error_message}')
+            return jsonify({"error": error_message})
+
+        orders = response_full_order.data
+
+        formatted_orders = []
+        for order in orders:
+            order_id = order['Trans_ID']
+
+            # Fetch order line details
+            response_order_line = supabase.table('Order_line').select(
+                'Order_Descriptions',
+                'Quantity'
+            ).filter('Order_ID', 'eq', order_id).execute()
+
+            if 'error' in response_order_line:
+                error_message = response_order_line['error']['message']
+                print(f'Error: {error_message}')
+                return jsonify({"error": error_message})
+
+            order_line_data = response_order_line.data
+            # Create a list of dishes
+            dishes = []
+            for dish in order_line_data:
+                dishes.append({
+                    "order_description": dish['Order_Descriptions'],
+                    "quantity": dish['Quantity']
+                })
+
+            
+            # Fetch user details
+            response_user = supabase.table('User').select(
+                'Location',
+                'Name',
+                'Phone'
+            ).filter('UserID', 'eq', user_id).execute()
+
+            if 'error' in response_user:
+                error_message = response_user['error']['message']
+                print(f'Error: {error_message}')
+                return jsonify({"error": error_message})
+
+            user_data = response_user.data[0]
+
+            # Combine data into the desired format
+            formatted_order = {
+                "order_id": order_id,
+                "dishes": dishes,
+                "order_date": order['OrderDate'],
+                "order_status": order['OrderStatus'],
+                "special_instruction": order['Special_Inst'],
+                "total_price": order['TotalPrice'],
+                "user_location": user_data['Location'],
+                "user_name": user_data['Name'],
+                "user_phone": user_data['Phone']
+            }
+
+            formatted_orders.append(formatted_order)
+
+        return jsonify({"orders": formatted_orders})
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'status': 500, 'message': 'Internal Server Error'}), 500
+    
+@app.route('/cancel_order/<int:order_number>/finish', methods=['POST', 'GET'])
+def cancel_order(order_number):
+        
+    response = supabase.table('FullOrder').delete().eq('Trans_ID', order_number).execute()
+    if len(response.data) == 0:
+        error = 'Error updating the order status'
+    else:
+            # Process any other logic related to accepting or rejecting the order
+            return jsonify({'message': f'Order cancelled successfully'})
 
                
 @app.route('/')
